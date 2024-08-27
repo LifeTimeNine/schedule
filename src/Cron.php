@@ -327,7 +327,7 @@ class Cron
      */
     public static function parse(string $cron): self
     {
-        if (!preg_match_all('/(((\d{1,2}-\d{1,2}|\d{1,2}),?)+|\*|\d{1,2})(\/\d{1,2})?/', $cron, $result) || count($result[0]) <> 6
+        if (!preg_match_all('/(((\d{1,2}-\d{1,2}|\d{1,2}),?)+|\*|\?|\d{1,2})(\/\d{1,2})?/', $cron, $result) || count($result[0]) <> 6
         ) {
             throw new InvalidArgumentException('Incorrect cron format', 1);
         }
@@ -351,8 +351,8 @@ class Cron
      */
     protected static function parseItem(string $cronItem, int $min, int $max): int
     {
-        preg_match('/^(((\d{1,2}-\d{1,2}|\d{1,2}),?)+|\*|\d{1,2})(\/(\d{1,2}))?$/', $cronItem, $result);
-        if ($result[1] == '*') {
+        preg_match('/^(((\d{1,2}-\d{1,2}|\d{1,2}),?)+|\*|\?|\d{1,2})(\/(\d{1,2}))?$/', $cronItem, $result);
+        if ($result[1] == '*' || $result[1] == '?') {
             $range = range($min, $max, $result[5] ?? null ?: 1);
         } else {
             $range = [];
