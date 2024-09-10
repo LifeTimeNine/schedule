@@ -229,6 +229,7 @@ class Cron
                     $result = $this->getHourRange() & ((pow(2, 24) - 1) << (int)$dateTime->format('H'));
                     if ($result == 0) {
                         $dateTime->modify('+1 day');
+                        $dateTime->setTime(0, 0, 0);
                         if($this->getWeekRange() <> pow(2, 7) - 1) {
                             $this->calculateDomainTime(self::DAY, $dateTime, true);
                         } else {
